@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CRUD TABLE</title>
+</head>
+<style>
+    table {
+        border: 1px solid #999;
+    }
+
+    th {
+        padding: 3px
+    }
+
+    th button {
+        /*width: 1em;
+        height: 1em;*/
+        padding: 1px;
+        cursor: pointer;
+        margin: 2px
+    }
+
+    tr:active, tr td:focus {
+        background-color: #fffacf;
+    }
+
+    div {
+        margin-top: 10px;
+    }
+
+    .pages span {
+        width: 20px;
+        display: inline-block;
+        text-align: center;
+    }
+
+    #formContainer #form {
+        display: none;
+    }
+
+    #formContainer #add {
+        display: inherit;
+    }
+
+    #formContainer.shown #form {
+        display: inherit;
+    }
+
+    #formContainer.shown #add {
+        display: none;
+    }
+
+    input {
+    margin: 3px;
+    }
+
+
+</style>
+<body>
+<h1>Test assigment</h1>
+<div> Data sources:
+    <button onclick="start(1)">sample1</button>
+    <button onclick="start(2)">sample2</button>
+    <button onclick="start(3)">sample3</button>
+</div>
+
+
+<div id="tab"></div>
+<div id="status"></div>
+<div id="formContainer" class="">
+    <button id="add" onclick="UIevents.showAddForm()"> Add</button>
+    <div id="form">
+
+
+    </div>
+
+</div>
+
+<script src="js/3dparty/ajax.js"></script>
+<script src="js/Controller.js"></script>
+<script src="js/TableModel.js"></script>
+<script src="js/View.js"></script>
+<script src="js/TableView.js"></script>
+<script src="js/StatusView.js"></script>
+<script src="js/FormView.js"></script>
+<script src="js/UIevents.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
