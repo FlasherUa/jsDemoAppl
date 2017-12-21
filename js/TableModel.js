@@ -95,8 +95,9 @@ const TableModelProto = {
 
             data = data.sort(function (a, b) {
 
-                const nameA = a[sortKey];
-                const nameB = b[sortKey];
+
+                const nameA = a[1 + Number(sortKey)];
+                const nameB = b[1 + Number(sortKey)];
                 let out = 0;
 
                 if (nameA < nameB) {
