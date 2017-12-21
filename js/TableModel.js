@@ -4,7 +4,7 @@ const TableModelProto = {
         pageSize: 5,
         curPage: 0,
 
-        sort: 2,
+        sort: "",
         sortDir: "desc",
         filter: "",
 
@@ -37,7 +37,7 @@ const TableModelProto = {
             return data;
         },
         /**
-         * apply new value to main Store
+         * Edit cell value
          *
          *
          * @param rowIndex
@@ -45,16 +45,31 @@ const TableModelProto = {
          * @param value
          */
         setValue: function (rowIndex, keyIndex, value) {
+            try {
+                this.fullData[rowIndex][keyIndex] = value
+            } catch (e) {
+                Controller.message("set value error")
+            }
 
+        },
+
+        /**
+         * apply new row to main Store
+         */
+        addItem: function (data) {
+            //add new id
+            data.unshift("new_" + this.fullData.length);
+
+            this.fullData.push(data)
 
         },
         del: function (index) {
-            var that=this
+            var that = this
             let item = this.fullData.find(function (item, k) {
                     if (k == 0) return false
                     //d(item)
                     if (item[0] === index) {
-                        that.fullData.splice(k,1) ;
+                        that.fullData.splice(k, 1);
                         return true;
 
                     }

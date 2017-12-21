@@ -1,156 +1,111 @@
-const TableModelProto = {
-        fullData: {},
-        viewedData: {},
-        pageSize: 5,
-        curPage: 0,
+/**
+ *
+ */
+const TableViewProto = {
+    // store (TableModel)
+    model: {},
+    //output stream
+    html: "",
 
-        sort: "",
-        sortDir: "desc",
-        filter: "",
+     _printHeader: function () {
+        //start table row
+        this._out(Templates.tr[0]);
 
-        getDataHeader: function () {
-            return this.fullData[0]
-        },
+        var header = this.model.getDataHeader()
+        var keyIndex = 0;
+        for (var key in header) {
+            if (header.hasOwnProperty(key)) {
 
-        //return table rows accroding to pagination, sort etc
-        getDataRows: function () {
-            var data = this.fullData.slice(1)
-            //apply filter to all data
-            if (this.filter != "") {
-                data = this._applyFilter(data, this.filter);
+                //add header cell
+                var out = Templates.th[0] + header[key] + this._printSortButtons(keyIndex) + Templates.th[1];
+                this._out(out);
+                keyIndex++
             }
-            //save filtered data count
-            this.filteredDataCount = data.length;
+        }
+        //end table row
+        this._out(Templates.tr[1]);
+    },
 
-            //apply sort to all data
-            if (this.sort != "") {
-                this._applySort(data, this.sort, this.sortDir)
+    _printSortButtons: function (keyIndex) {
+        var out = Templates.sortAsc[0] + keyIndex + Templates.sortAsc[1] +
+            Templates.sortDesc[0] + keyIndex + Templates.sortDesc[1];
+        return out
+    },
+
+    /**
+     * outut table body = data rows
+     * O(n*m) its terrible I know...
+     * @private
+     */
+    _printRows: function () {
+
+        let rows = this.model.getDataRows();
+        for (let i = 0; i < rows.length; i++) {
+
+            let out = Templates.tr[[0]]
+
+            for (let e = 1; e < rows[i].length; e++) {
+                out += Templates.td[0] +
+                    " onblur=\"UIevents.change('" + rows[i][0] + "' , '" + e + "', this)\" " +
+                    " onclick=\"UIevents.selectRow('" + rows[i][0] + "', this)\" >" +
+                    rows[i][e] +
+                    Templates.td[1];
             }
 
-            //select data page
-            if (data.length > this.pageSize) {
-                data = this._applyPage(data, this.pageSize, this.curPage)
 
+            this._out(out)
+        }
+        this._out(Templates.tr[[1]])
+    },
+
+    _printPagination: function () {
+        //print pages list
+        const model = this.model;
+        let out = "<div class='pages'> Pages: ";
+        const maxpages=model.filteredDataCount/ model.pageSize
+        for (let i = 0; i < maxpages; i ++) {
+
+            if (i == model.curPage) {
+                // active button
+                out += "<span>" + (i + 1) + "</span>";
+            } else {
+                out += "<button onclick='UIevents.page(" + i + ")'>" + (i + 1) + "</button>";
             }
-
-            this.viewedData = data
-            return data;
-        },
-        /**
-         * apply new value to main Store
-         *
-         *
-         * @param rowIndex
-         * @param keyIndex
-         * @param value
-         */
-        setValue: function (rowIndex, keyIndex, value) {
-            try {
-                this.fullData[rowIndex][keyIndex] = value
-            } catch (e) {
-                Controller.message("set value error")
-
-
-            }
-
-        },
-        /**
-         * apply new value to main Store
-         *
-         *
-         */
-        addItem: function (data) {
-            //add new id
-            data.unshift("new_" + this.fullData.length);
-
-            this.fullData.push(data)
-
-        },
-        del: function (index) {
-            var that = this
-            let item = this.fullData.find(function (item, k) {
-                    if (k == 0) return false
-                    //d(item)
-                    if (item[0] === index) {
-                        that.fullData.splice(k, 1);
-                        return true;
-
-                    }
-                }
-            )
-
-        },
-
-
-        _applyFilter: function (data, filter) {
-
-            data = data.filter(function (row) {
-                var t = row.find(function (item) {
-
-                    if (item == filter || (item.indexOf && item.indexOf(filter) > -1)) return true;
-                });
-                return t;
-            })
-            return data
-        },
-
-        _applySort: function (data, sortKey, sortDir) {
-
-            data = data.sort(function (a, b) {
-
-                const nameA = a[1 + Number(sortKey)];
-                const nameB = b[1 + Number(sortKey)];
-                let out = 0;
-
-                if (nameA < nameB) {
-                    out = -1;
-                }
-                if (nameA > nameB) {
-                    out = 1;
-                }
-                if (sortDir === "desc") out = (out === 1 ? -1 : 1);
-
-                return out;
-
-            })
-
-            return data
-        },
-        /**
-         *
-         * @param data
-         * @param pageSize starting with 0
-         * @param curPage
-         * @private
-         */
-        _applyPage: function (data, pageSize, curPage) {
-            const start = pageSize * curPage
-            const end = start + pageSize
-
-            return data.slice(start, end)
 
         }
-
-    }
-;
+        out+="</div>";
+        out+="<div>Total: "+(model.fullData.length-1)+" items. Filtered: "+(model.filteredDataCount)+" items";
+        this._out(out)
+    },
+}
 
 /**
  *
- * @param data
+ * @param model
  * @constructor
  */
-const TableModel = function (data) {
+const TableView = function (model) {
+    this.model = model;
+    this.html = "";
 
-    //apply custom uniq ID
-    for (let i = 1; i < data.length; i++) {
-        data[i].unshift(i)
-    }
+    this._out(Templates.tabStart[0]);
 
+    this._printHeader();
+    this._printRows();
+    this._out(Templates.tabStart[1]);
 
-    this.fullData = data
+    this._printPagination();
 }
 
+Object.assign(TableViewProto, View)
+TableView.prototype = TableViewProto;
 
-TableModel.prototype = TableModelProto
 
-
+const Templates = {
+    tabStart: ["<table><tbody>", "</tbody></table>"],
+    tr: ["<tr>", "</tr>"],
+    th: ["<th>", "</th>"],
+    td: ["<td contenteditable='true' ", "</td>"],
+    sortAsc: ['<button class=\'asc\' onclick=\'UIevents.sortBy("', '","asc")\'>▲</button>'],
+    sortDesc: ['<button class=\'desc\' onclick=\'UIevents.sortBy("', '","desc")\'>▼</button>']
+};

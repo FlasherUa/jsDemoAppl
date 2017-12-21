@@ -8,8 +8,7 @@ window.UIevents = {
      */
     change: function (rowIndex, keyIndex, node) {
 
-        var value = this.innerHTML;
-        tableModel.setValue(rowIndex, keyIndex, value)
+        tableModel.setValue(rowIndex, keyIndex, node.innerHTML)
 
     },
     selectRow: function (rowIndex, node) {

@@ -36,22 +36,26 @@ const TableModelProto = {
             this.viewedData = data
             return data;
         },
-        /**
-         * apply new value to main Store
-         *
-         *
-         * @param rowIndex
-         * @param keyIndex
-         * @param value
-         */
-        setValue: function (rowIndex, keyIndex, value) {
+    /**
+     * apply new value to main Store
+     *
+     *
+     * @param rowIndex
+     * @param keyIndex
+     * @param value
+     */
+    setValue: function (rowIndex, keyIndex, value) {
+        try {
+            this.fullData[rowIndex][keyIndex] = value
+        } catch (e) {
+            Controller.message("set value error")
 
 
-        },
+        }
+
+    },
         /**
          * apply new value to main Store
-         *
-         *
          */
         addItem: function (data) {
             //add new id
