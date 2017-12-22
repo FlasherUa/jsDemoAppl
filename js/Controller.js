@@ -2,17 +2,14 @@
  * Main Application Controller
  */
 var Controller = (function () {
-
     /**
      * @var {Object} Container for TableView
      */
     var tableView;
-
     /**
      * @var {Object} Container for TableModel
      */
     var tableModel;
-
     /**
      * @var {Object} Container for StatusView
      */
@@ -57,7 +54,6 @@ var Controller = (function () {
         change: function (rowIndex, keyIndex, node) {
             tableModel.setValue(rowIndex, keyIndex, node.innerHTML)
         },
-
         /**
          * Set new data model for app
          *
@@ -98,7 +94,6 @@ var Controller = (function () {
             Controller._renderStatus()
 
         },
-
         /**
          * Set page for list
          *
@@ -187,7 +182,6 @@ var Controller = (function () {
             statusView.render("status");
         }
     };
-
     /**
      * @export
      */

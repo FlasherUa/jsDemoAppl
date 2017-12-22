@@ -46,7 +46,6 @@ let FormView = (function () {
     //apply prototypes
     Object.assign(FormViewProto, View);
     FormView.prototype = FormViewProto
-
     /**
      * Templates
      */
