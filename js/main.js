@@ -1,6 +1,6 @@
 function start(dataId) {
 
-    Controller.appStart("data/sample"+dataId+".json");
+  Controller.appStart("data/sample"+dataId+".json");
 
 }
 start(2);

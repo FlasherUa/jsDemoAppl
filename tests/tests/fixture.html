@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CRUD TABLE</title>
+</head>
+
+<body>
+<h1>Test assigment</h1>
+<div> Data sources:
+    <button onclick="start(1)">sample1</button>
+    <button onclick="start(2)">sample2</button>
+    <button onclick="start(3)">sample3</button>
+</div>
+
+
+<div id="tab"></div>
+<div id="status"></div>
+<div id="formContainer" class="">
+    <button id="add" onclick="UIevents.showAddForm()"> Add</button>
+    <div id="form">
+    </div>
+</div>
+
+<!-- main app -->
+<script src="../../js/3dparty/ajax.js"></script>
+<script src="../../js/Controller.js"></script>
+<script src="../../js/TableModel.js"></script>
+<script src="../../js/View.js"></script>
+<script src="../../js/TableView.js"></script>
+<script src="../../js/StatusView.js"></script>
+<script src="../../js/UIevents.js"></script>
+<script src="../../js/FormView.js"></script>
+
+
+<!-- tests -->
+
+<div id="qunit"></div>
+<div id="qunit-fixture"></div>
+
+<script src="http://code.jquery.com/qunit/qunit-1.17.1.js"></script>
+<script src="http://code.jquery.com/qunit/qunit-1.17.1.js"></script>
+<script src="http://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
+<link rel="stylesheet" href="//code.jquery.com/qunit/qunit-1.17.1.css">
+
+<script src="sample_data.js"></script>
+<script src="test_TableModel.js"></script>
+<script src="test_TableView.js"></script>
+<script src="test_AddForm.js"></script>
+
+</body>
+</html>
