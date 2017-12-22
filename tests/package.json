@@ -1,0 +1,13 @@
+{
+  "name": "tests",
+  "version": "0.0.1",
+  "description": "tests for demo project",
+  "scripts": {
+    "start": "node test.js"
+  },
+  "devDependencies": {
+    "qunit": "^2.4.1",
+    "qunit-phantomjs-runner": "^2.3.1",
+    "webpage": "^0.3.0"
+  }
+}
